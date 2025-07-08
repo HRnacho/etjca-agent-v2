@@ -1,17 +1,17 @@
-# ETJCA Cloud Agent
+# ETJCA Lead Generation System
 
-🚀 **Agente intelligente per la gestione automatica delle risorse cloud**
+🚀 **Sistema intelligente di Lead Generation per Friuli Venezia Giulia**
 
-Sistema avanzato di monitoraggio, analisi e ottimizzazione per AWS, Azure e Google Cloud Platform.
+Sistema avanzato di ricerca, acquisizione e gestione prospects con tecnologia MCP (Model Context Protocol).
 
 ## 🌟 Caratteristiche
 
-- **🔍 Discovery Automatico**: Scopre risorse cloud in tempo reale
-- **🧠 Analisi Intelligente**: Monitora CPU, memoria e performance
-- **⚡ Ottimizzazione Automatica**: Applica miglioramenti automatici
-- **📧 Notifiche Smart**: Alert per situazioni critiche
-- **🗄️ Database PostgreSQL**: Persistenza dati robusta
-- **🔄 Monitoraggio Continuo**: Cicli automatici ogni 5 minuti
+- **🔍 Ricerca Multi-Fonte**: LinkedIn, Sales Navigator, Camera di Commercio
+- **📝 Inserimento Manuale**: Form web per prospects manuali
+- **🧠 MCP Protocol**: Comunicazione AI nativa invece di API REST
+- **📊 Analytics Avanzate**: Report per provincia, fonte, conversioni
+- **🗄️ Database PostgreSQL**: Persistenza robusta con deduplicazione
+- **🎯 Territory Focus**: Specializzato per FVG (UD, PN, GO, TS)
 
 ## 🚀 Deploy Railway
 
@@ -21,8 +21,9 @@ Sistema avanzato di monitoraggio, analisi e ottimizzazione per AWS, Azure e Goog
 
 - **Database**: PostgreSQL
 - **Runtime**: Python 3.11 AsyncIO
-- **Providers**: AWS, Azure, GCP
+- **Protocol**: MCP (Model Context Protocol)
 - **Territory**: FVG (Udine, Pordenone, Gorizia, Trieste)
+- **Sources**: LinkedIn, Sales Navigator, Camera Commercio
 
 ### Quick Start
 
