@@ -1,7 +1,7 @@
 </select>
                             </div>
                             
-                            <button type="submit" class="btn">🚀 Avvia Ricerca Automatica</button>
+                            <button type="submit" class="btn"> Avvia Ricerca Automatica</button>
                         </form>
                     </div>
                 </div>
