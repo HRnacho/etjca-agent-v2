@@ -182,9 +182,8 @@ class ETJCAAgent:
     
     def stop(self):
         """Ferma l'agente"""
-        self.running = False
-logger.info("⏹️ ETJCA Agent fermato")
-    
+        self.running = False 
+        logger.info("⏹️ ETJCA Agent fermato")
     def get_status(self):
         """Ritorna lo status dell'agente"""
         return {
@@ -195,116 +194,34 @@ logger.info("⏹️ ETJCA Agent fermato")
             "timestamp": datetime.now().isoformat()
         }
 
-# Istanza globale per Railway
+# Istanza globale
 agent = ETJCAAgent()
 
 async def main():
-    """Funzione principale con web server semplice"""
+    """Funzione principale"""
     import threading
     from http.server import HTTPServer, BaseHTTPRequestHandler
     
     class ETJCAHandler(BaseHTTPRequestHandler):
         def do_GET(self):
-            if self.path == '/':
-                self.send_response(200)
-                self.send_header('Content-type', 'text/html')
-                self.end_headers()
-                
-                status = agent.get_status()
-                html = f"""
-                <!DOCTYPE html>
-                <html>
-                <head>
-                    <title>ETJCA Cloud Agent</title>
-                    <style>
-                        body {{ font-family: Arial, sans-serif; margin: 40px; background: #f5f5f5; }}
-                        .container {{ background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }}
-                        .status {{ color: #28a745; font-weight: bold; }}
-                        .metric {{ background: #e9ecef; padding: 15px; margin: 10px 0; border-radius: 5px; }}
-                    </style>
-                </head>
-                <body>
-                    <div class="container">
-                        <h1>🚀 ETJCA Cloud Agent</h1>
-                        <p class="status">Status: {status['status'].upper()}</p>
-                        <div class="metric">
-                            <strong>Agent:</strong> {status['agent_name']} v{status['version']}
-                        </div>
-                        <div class="metric">
-                            <strong>Database:</strong> {status['database']}
-                        </div>
-                        <div class="metric">
-                            <strong>Last Update:</strong> {status['timestamp']}
-                        </div>
-                        <div class="metric">
-                            <strong>Monitoring:</strong> Cicli automatici ogni 5 minuti
-                        </div>
-                        <h3>📊 Funzionalità Attive</h3>
-                        <ul>
-                            <li>🔍 Discovery risorse cloud</li>
-                            <li>🧠 Analisi intelligente</li>
-                            <li>⚡ Ottimizzazioni automatiche</li>
-                            <li>📧 Notifiche smart</li>
-                        </ul>
-                    </div>
-                </body>
-                </html>
-                """
-                self.wfile.write(html.encode())
-            elif self.path == '/status':
-                self.send_response(200)
-                self.send_header('Content-type', 'application/json')
-                self.end_headers()
-                
-                import json
-                status = agent.get_status()
-                self.wfile.write(json.dumps(status).encode())
-            else:
-                self.send_response(404)
-                self.end_headers()
-                self.wfile.write(b'Not Found')
+            self.send_response(200)
+            self.send_header('Content-type', 'text/html')
+            self.end_headers()
+            status = agent.get_status()
+            html = f"<h1>ETJCA Agent</h1><p>Status: {status['status']}</p><p>Database: {status['database']}</p>"
+            self.wfile.write(html.encode())
     
-    # Avvia web server in thread separato
     port = int(os.environ.get('PORT', 8000))
     httpd = HTTPServer(('0.0.0.0', port), ETJCAHandler)
     
-    def start_web_server():
-        logger.info(f"🌐 Web server avviato su porta {port}")
+    def start_web():
         httpd.serve_forever()
     
-    web_thread = threading.Thread(target=start_web_server, daemon=True)
-    web_thread.start()
+    threading.Thread(target=start_web, daemon=True).start()
+    logger.info("🌐 Web server avviato")
     
-    try:
-        logger.info("🚀 Avvio ETJCA Cloud Agent...")
-        
-        # Mostra status
-        status = agent.get_status()
-        logger.info(f"📊 {status['agent_name']} v{status['version']}")
-        logger.info(f"🗄️ Database: {status['database']}")
-        logger.info(f"🌐 Web interface disponibile")
-        
-        # Esegui un ciclo di test
-        logger.info("🧪 Eseguendo ciclo di test...")
-        test_result = await agent.run_cycle()
-        
-        if test_result["success"]:
-            logger.info("✅ Test completato con successo!")
-            logger.info("🔄 Avvio modalità continua...")
-            
-            # Avvia modalità continua
-            await agent.start()
-        else:
-            logger.error(f"❌ Test fallito: {test_result.get('error')}")
-            # Mantieni il web server attivo anche se il test fallisce
-            while True:
-                await asyncio.sleep(60)
-                
-    except Exception as e:
-        logger.error(f"❌ Errore fatale: {e}")
-        # Mantieni il web server attivo anche con errori
-        while True:
-            await asyncio.sleep(60)
+    await agent.run_cycle()
+    await agent.start()
 
 if __name__ == "__main__":
     asyncio.run(main())
